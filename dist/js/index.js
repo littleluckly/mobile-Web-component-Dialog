@@ -1,0 +1,1 @@
+console.log("console测试"),document.querySelector("body").onclick=function(){alert("点击body弹出我！")};

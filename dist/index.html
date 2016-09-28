@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>移动弹出框组件</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="format-detection" content="telephone=no,email=no">
+
+	<link rel="stylesheet" href="css/index.css">
+	<link rel="stylesheet" type="text/css" href="iconfont/ux_1475044438_948844/iconfont.css">
+	<link rel="stylesheet" type="text/css" href="css/dialog.css">
+</head>
+<body>
+	<!--div class="g-dialog-container">
+		<div class="dialog-window">
+			<div class="dialog-header"></div>
+			<div class="dialog-content">你是否要清空购物车？</div>
+			<div class="dialog-footer">
+				<button>btn1</button>
+				<button>btn2</button>
+			</div>
+		</div>
+	</div-->
+
+	<button id="btn1">没有传递任何参数(需手动关闭)</button>
+	<button id="btn2">弹出一个不带任何按钮，且是警告的框，并且2秒后自动关闭</button>
+	<button id="btn3">弹出一个有确认和取消按钮的成功框，点击按钮直接关闭</button>
+	<button id="btn4">弹出一个有确认按钮的警告框，点击按钮不关闭(需手动关闭)</button>
+	<button id="btn5">弹出一个多组合的按钮框，且按钮样式可定制</button>
+	<button id="btn6">弹出一个确认和删除的框，点击确认弹出加载框2秒自动关闭，点击删除按钮把上一次框关闭</button>
+	<button id="btn7">带动画的对话框</button>
+	<button id="btn8" style="background-color:red;">延时关闭加回调</button>
+	<button id="btn9" style="background-color:red;">遮罩层点击是否可以关闭</button>
+
+	<script type="text/javascript" src="js/zepto.js"></script>
+	<script type="text/javascript" src="js/touch.js"></script>
+	<script type="text/javascript" src="js/zepto.dialog.js"></script>
+	<script type="text/javascript">
+	$("#btn1").tap(function(){
+		var d=$.dialog();
+	});
+	$("#btn2").tap(function(){
+		var d=$.dialog({
+			type:"icon-success",
+			message:"2秒后关闭",
+			delay:2000
+		});
+	});
+	$("#btn3").tap(function(){
+		var d=$.dialog({
+			type:"icon-wrong",
+			message:"有确认和取消，点击按钮直接关闭",
+			buttons:[
+				{text:"确认"},
+				{text:"取消"}
+			]
+		});
+	});
+	$("#btn4").tap(function(){
+		var d=$.dialog({
+			type:"icon-warning",
+			message:"我叫警告框",
+			buttons:[
+				{text:"确认",type:"red",callback:function(){
+					alert("点击我不会关闭");
+					return false;
+				}}
+			]
+		});
+	});
+	$("#btn5").tap(function(){
+		var d=$.dialog({
+			type:"icon-iconloading-copy",
+			message:"多组合按钮，按钮样式可定制",
+			buttons:[
+				{text:"默认",callback:function(){
+					alert("点击我可以关闭");
+				}},
+				{text:"确认",type:"red",callback:function(){
+					alert("点击我可以关闭");
+				}},
+				{text:"好吧",type:"green",callback:function(){
+					alert("点击我不会关闭");
+					return false;
+				}}
+			]
+		});
+	});
+	$("#btn6").tap(function(){
+		var ddd=$.dialog({
+			type:"icon-warning",
+			message:"我叫警告框",
+			buttons:[
+				{text:"确认",type:"green",callback:function(){
+					$.dialog({
+						type:"icon-help",
+						delay:2000
+					});
+					return false;
+				}},
+				{text:"删除",type:"red",callback:function(){
+					ddd.close();
+					return false;
+				}}
+			]
+		});
+	});
+	$("#btn7").tap(function(){
+		var d=$.dialog({
+			type:"icon-information",
+			message:"你想怎样",
+			buttons:[
+				{text:"确认",type:"green"},
+				{text:"取消",type:"red"}
+			],
+			effect:true //true:带动画
+		});
+	});
+
+	$("#btn8").tap(function(){
+		var d=$.dialog({
+			type:"icon-warning",
+			message:"延时关闭加回调",
+			delay:2000,
+			delayCallback:function(){
+				alert("111");
+			}
+		});
+	});
+	$("#btn9").tap(function(){
+		var d=$.dialog({
+			type:"icon-warning",
+			message:"遮罩层点击是否可以关闭",
+			buttons:[
+				{text:"按钮A",type:"green"},{text:"按钮B",callback:function(){return false;}}
+			],
+			maskOpacity:0.4,
+			maskClose:true //true:点击遮罩层关闭
+		});
+	});
+	/*var d=new Dialog({
+			//对话框宽
+			//width:100,
+			//对话框提示信息
+			message:"你还好吗？",
+			//对话框类型
+			type:"icon-warning",
+			//按钮配置
+			buttons:[
+				{type:"red",text:"不好",callback:function(){alert(1);return false;}},
+				{type:"green",text:"好啊",callback:function(){alert(2);}}
+			],
+			//弹出框延迟多久关闭
+			//delay:3000,
+			//对话框遮罩透明度
+			maskOpacity:0.5
+		});
+		*/
+	</script>
+</body>
+</html>
